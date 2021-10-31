@@ -15,6 +15,8 @@ allComments = [{userName:"Ian",userComment:"Recommended, good one"},
                   {userName:"Graham",userComment:"I don't like the colour"},
                   {userName:"Eamon",userComment:"Love it"}];
 
+jsonContainer = document.getElementById("json-data");
+
 /* Open */
 function toggleNav() {
   if (document.getElementById("dropDown-Box").classList.contains(".active")) {
@@ -255,84 +257,143 @@ function loadXML() {
           let receivedXMLFile = this.responseText;
           //Display this XML file on my webpage at "contact" p
           document.getElementById("contact").innerHTML = receivedXMLFile;
+          document.getElementById("contact").style.backgroundColor = "yellow";
+          document.getElementById("contact").style.margin = "10px";
+          document.getElementById("contact").style.padding = "5px";
       }
   };
 }
 
-//LoadJSON
-function loadJSONFile(url) {
+function loadJSONContact() {
   //1: Use CORS API website as proxy to retrieve XML file
   let proxy = "https://cors-anywhere.herokuapp.com/";
   //Declare the URL indicates the location of the XML file
+  let url = "http://danieldangs.com/itwd6-408/json/contact-eit.json";
   //2: Create XMLHttpRequest object
   let ourRequest = new XMLHttpRequest();
   //Set ourRequest to URL to get data (not send data)
   ourRequest.open("GET", proxy + url, true);
   //Send XMLHttpRequest object or ourRequest to URL
   ourRequest.send();
- 
-  //3: Receive response (reply) from URL and Process that data
-  ourRequest.onload = function(url) {
-  //Check if the response status is OK (o error), render data on web page
-  if (ourRequest.status >= 200 && ourRequest.status < 400) {
-  //
-  let receivedData = JSON.parse(ourRequest.responseText);
   //Build an html string which will be rendered on browser as an html-formated element
-  let htmlString = "";
+  var htmlString = "";
 
-  if (url = "http://danieldangs.com/itwd6-408/json/contact-eit.json") {
+  //3: Receive response (reply) from URL and Process that data
+  ourRequest.onload = function() {
+    //Check if the response status is OK (no error), render data on web page
+    if (ourRequest.status >= 200 && ourRequest.status < 400) {
+    //
+    let receivedData = JSON.parse(ourRequest.responseText);
+
+      //Retrieve question and relevant answer
+      for (var i = 0; i < receivedData.length; i++) {
+      //Add a <div> open tag
+      htmlString += `<div style="background-color: yellow; margin: 10px; padding: 5px;">`;
+      //Get name
+      htmlString += "<h4>" + receivedData[i].name + "</h4>";
+      //Get email
+      htmlString += "<p4>" + receivedData[i].email + "</p4><br>";
+      //Get address
+      htmlString += "<p4>" + receivedData[i].address + "</p4>";
+      //Add the closing tag of div
+      htmlString += "</div>";
+      }
+    //Render the whole htmlString to web page
+    jsonContainer.innerHTML = htmlString;
+  
+    //Add style to the html elements: add the <div> tag
+    } else {
+    //Exception handling
+    console.log("Connected to the server successfully but it returned an error!");
+    }
+  }
+}
+
+function loadJSONFruit() {
+  //1: Use CORS API website as proxy to retrieve XML file
+  let proxy = "https://cors-anywhere.herokuapp.com/";
+  //Declare the URL indicates the location of the XML file
+  let url = "http://danieldangs.com/itwd6-408/json/fruit.json";
+  //2: Create XMLHttpRequest object
+  let ourRequest = new XMLHttpRequest();
+  //Set ourRequest to URL to get data (not send data)
+  ourRequest.open("GET", proxy + url, true);
+  //Send XMLHttpRequest object or ourRequest to URL
+  ourRequest.send();
+  //Build an html string which will be rendered on browser as an html-formated element
+  var htmlString = "";
+
+  //3: Receive response (reply) from URL and Process that data
+  ourRequest.onload = function() {
+    //Check if the response status is OK (no error), render data on web page
+    if (ourRequest.status >= 200 && ourRequest.status < 400) {
+    //
+    let receivedData = JSON.parse(ourRequest.responseText);
+
     //Retrieve question and relevant answer
     for (var i = 0; i < receivedData.length; i++) {
-    //Add a <div> open tag
-    htmlString += `<div style="background-color: yellow; margin: 10px; padding: 5px;">`;
-    //Get name
-    htmlString += "<h4>" + receivedData[i].name + "</h4>";
-    //Get email
-    htmlString += "<p4>" + receivedData[i].email + "</p4><br>";
-    //Get address
-    htmlString += "<p4>" + receivedData[i].address + "</p4>";
-    //Add the closing tag of div
-    htmlString += "</div>";
+      //Add a <div> open tag
+      htmlString += `<div style="background-color: yellow; margin: 10px; padding: 5px;">`;
+      //Get name
+      htmlString += "<h4>" + receivedData[i].fruit + "</h4>";
+      //Get image
+      htmlString += "<img src='" + receivedData[i].img_url + "' width=400px'>";
+      //Add the closing tag of div
+      htmlString += "</div>";
+    }
+    //Render the whole htmlString to web page
+    jsonContainer.innerHTML = htmlString;
+  
+    //Add style to the html elements: add the <div> tag
+    } else {
+    //Exception handling
+    console.log("Connected to the server successfully but it returned an error!");
     }
   }
-  else if (url = "http://danieldangs.com/itwd6-408/json/fruit.json") {
-  //Retrieve question and relevant answer
-  for (var i = 0; i < receivedData.length; i++) {
-    //Add a <div> open tag
-    htmlString += `<div style="background-color: yellow; margin: 10px; padding: 5px;">`;
-    //Get name
-    htmlString += "<h4>" + receivedData[i].fruit + "</h4>";
-    //Get email
-    htmlString += "<img>" + receivedData[i].img_url + "<img>";
-    //Add the closing tag of div
-    htmlString += "</div>";
+}
+
+function loadJSONFAQ() {
+  //1: Use CORS API website as proxy to retrieve XML file
+  let proxy = "https://cors-anywhere.herokuapp.com/";
+  //Declare the URL indicates the location of the XML file
+  let url = "http://danieldangs.com/itwd6-408/json/faqs.json";
+  //2: Create XMLHttpRequest object
+  let ourRequest = new XMLHttpRequest();
+  //Set ourRequest to URL to get data (not send data)
+  ourRequest.open("GET", proxy + url, true);
+  //Send XMLHttpRequest object or ourRequest to URL
+  ourRequest.send();
+  //Build an html string which will be rendered on browser as an html-formated element
+  var htmlString = "";
+
+  //3: Receive response (reply) from URL and Process that data
+  ourRequest.onload = function() {
+    //Check if the response status is OK (no error), render data on web page
+    if (ourRequest.status >= 200 && ourRequest.status < 400) {
+    //
+    let receivedData = JSON.parse(ourRequest.responseText);
+
+    //Retrieve question and relevant answer
+    for (var i = 0; i < receivedData.length; i++) {
+      //Add a <div> open tag
+      htmlString += `<div style="background-color: yellow; margin: 10px; padding: 5px;">`;
+      //Get question
+      htmlString += "<h4>" + receivedData[i].question + "</h4>";
+      //Get answer
+      htmlString += "<p4>" + receivedData[i].answer + "</p4>";
+      //Add the closing tag of div
+      htmlString += "</div>";
+    }
+    //Render the whole htmlString to web page
+    jsonContainer.innerHTML = htmlString;
+  
+    //Add style to the html elements: add the <div> tag
+    } else {
+    //Exception handling
+    console.log("Connected to the server successfully but it returned an error!");
     }
   }
-  else if (url = "http://danieldangs.com/itwd6-408/json/faqs.json") {
-  //Retrieve question and relevant answer
-  for (var i = 0; i < receivedData.length; i++) {
-    //Add a <div> open tag
-    htmlString += `<div style="background-color: yellow; margin: 10px; padding: 5px;">`;
-    //Get name
-    htmlString += "<h4>" + receivedData[i].question + "</h4>";
-    //Get email
-    htmlString += "<p4>" + receivedData[i].answer + "</p4>";
-    //Add the closing tag of div
-    htmlString += "</div>";
-    }
-  }
- 
-  //Render the whole htmlString to web page
-  let faqContainer = document.getElementById("json-data");
-  faqContainer.innerHTML = htmlString;
- 
-  //Add style to the html elements: add the <div> tag
-  } else {
-  //Exception handling
-  console.log("Connected to the server successfully but it returned an error!");
-  }
-  };
-} 
+}
 
 function init() { 
   addAllFilms();
